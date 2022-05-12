@@ -1,3 +1,0 @@
-# pythonBot
-
-#your-mother
