@@ -1,5 +1,5 @@
 import nextcord
-import beautifulsoup4
+from bs4 import BeautifulSoup
 import requests
 from nextcord.ext import commands
 from pkg_resources import register_finder
