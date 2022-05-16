@@ -17,5 +17,9 @@ async def bye(ctx):
 @bot.command()
 async def money(ctx,amount):
   await ctx.send(f'You have ${amount}')
+  
+@bot.command()
+async def Fuck you(ctx):
+  await ctx.send('fuck you too')
 
 bot.run(TOKEN)
