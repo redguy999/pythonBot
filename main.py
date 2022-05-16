@@ -23,8 +23,8 @@ async def date(ctx):
 @bot.command()
 async def money(ctx,amount):
   await ctx.send(f'You have ${amount}')
-  
-exec(open("commands.txt","r").read())
-exec(open("commands2.txt","r").read())
+
+exec(open("commands.py","r").read())
+exec(open("commands2.py","r").read())
 
 bot.run(TOKEN)
