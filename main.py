@@ -1,4 +1,6 @@
 import nextcord
+import beautifulsoup4
+import requests
 from nextcord.ext import commands
 from pkg_resources import register_finder
 from auth import TOKEN
