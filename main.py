@@ -1,6 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 from auth import TOKEN
+from datetime import time
 
 intents = nextcord.Intents.default()
 intents.members = True
@@ -13,6 +14,11 @@ async def hello(ctx):
 @bot.command()
 async def bye(ctx):
   await ctx.send('bye.')
+  
+@bot.command()
+async def date(ctx):
+  today = date.today()
+  await ctx.send(f"Today's date is {today}")
 
 @bot.command()
 async def money(ctx,amount):
