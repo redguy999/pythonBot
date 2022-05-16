@@ -10,5 +10,12 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 async def hello(ctx):
   await ctx.send('hi!')
 
+@bot.command()
+async def bye(ctx):
+  await ctx.send('bye.')
+
+@bot.command()
+async def money(ctx,amount):
+  await ctx.send(f'You have ${amount}')
 
 bot.run(TOKEN)
