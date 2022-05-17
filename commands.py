@@ -28,6 +28,9 @@ async def search(ctx,term,entry):
   #insert getting just whats suppose to be the results here, if you can get that working.
   links=getLinked(soup)
   for link in links.copy():
-    if re.findall("google",link) or not re.findall("http.*:",link):#
+    if re.findall("google",link) or not re.findall("http.*:",link):
       links.remove(link)
+  for num in range(0,len(links)):
+    links[num]=links[num].removeprefix("/url?q=")
+    links[num]=re.findall("(.+)&sa=U&ved=",links[num])[0]
   await ctx.send(links[entry])
