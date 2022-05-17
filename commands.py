@@ -7,7 +7,7 @@ def ManURL(rl):
     url = rl
     response = requests.get(url)
     return BeautifulSoup(response.content, 'html.parser')
-def getLinked():
+def getLinked(parent):
     tags = soup.find_all('a')
     linksFound = []
     for x in tags:
@@ -24,7 +24,10 @@ async def search(ctx,term,entry):
   #search "term" on google, and return the url of the result matching the entry number.
   url=f"https://www.google.com/search?q={term}"
   global soup
-  soup = soup.find(id="rcnt")
   soup = ManURL(url)
-  giveBack=getLinked()[entry]
-  await ctx.send(giveBack)
+  #insert getting just whats suppose to be the results here, if you can get that working.
+  links=getLinked(soup)
+  for link in links.copy():
+    if re.findall("google",link) or not re.findall("http.*:",link):#
+      links.remove(link)
+  await ctx.send(links[entry])
