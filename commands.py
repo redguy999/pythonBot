@@ -31,6 +31,20 @@ async def search(ctx,term,entry):
     if re.findall("google",link) or not re.findall("http.*:",link):
       links.remove(link)
   for num in range(0,len(links)):
-    links[num]=links[num].removeprefix("/url?q=")
-    links[num]=re.findall("(.+)&sa=U&ved=",links[num])[0]
+    links[num]=re.findall("/url?q=(.+)&sa=U&ved=",links[num])[0]
   await ctx.send(links[entry])
+
+@bot.command()
+async def sus(ctx):
+  await ctx.send(str(ctx.author.mention)+ " is sus.")
+
+@bot.command()
+async def vent(ctx):
+  await ctx.send(str(ctx.author.mention)+" vented!")
+
+@bot.command()
+async def isRed(ctx):
+  if(str(ctx.message.author)=="redguy999#1564"):
+    await ctx.send("You are Redguy")
+  else:
+    await ctx.send("You are not Redguy")
