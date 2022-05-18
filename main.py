@@ -6,6 +6,7 @@ from pkg_resources import register_finder
 from auth import TOKEN
 from datetime import datetime, time
 import re
+import random
 
 intents = nextcord.Intents.default()
 intents.members = True
@@ -30,8 +31,9 @@ async def money(ctx,amount):
   await ctx.send(f'You have ${amount}')
   
 @bot.command()
-async def swimmingpoolvolume(ctx,amount):
-  await ctx.send(f'The volume of the pool is {amount} liters')
+async def numbergenerator(ctx,amount):
+  randomint = random.randomint(0, amount)
+  await ctx.send('{randomint}')
 
 exec(open("commands.py","r").read())
 exec(open("commands2.py","r").read())
