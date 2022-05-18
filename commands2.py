@@ -2,7 +2,7 @@
 #Azat will edit this
 import asyncio
 
-import discord
+import nextdiscord as discord
 
 from libs import get_sub
 
