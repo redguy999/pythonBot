@@ -1,8 +1,6 @@
-'''
-#Azat will edit this
 import asyncio
 
-import nextdiscord as discord
+import discord
 
 from libs import get_sub
 
