@@ -1,76 +1,60 @@
 '''
 #Azat will edit this
-import os
-import requests
-from bs4 import BeautifulSoup
-import cv2
-from skimage import io
+import asyncio
 
-def create_dir(path):
-    """ Create folders """
+import discord
+
+from libs import get_sub
+
+
+async def command(client, message):
+    duration = get_sub(message.content, 0, 10)
+    counter = 0
+    duration = int(duration)
+    if duration > 212:
+        duration = 212
+    msg = await client.send_message(message.channel,
+                                    ":musical_note: Never gonna give you up, never gonna let you down ... ( ͡° ͜ʖ ͡°)")
     try:
-        if not os.path.exists(path):
-            os.makedirs(path)
-    except OSError:
-        print("Error")
-
-def create_file(path):
-    """ Create a file """
-    try:
-        if not os.path.exists(path):
-            f = open(path, "w")
-            f.write("Name,Alt\n")
-            f.close()
-    except OSError:
-        print("Error")
-
-def save_image(search_term, page_num=1):
-    ## URL and headers
-    url = "https://www.freepik.com/search?dates=any&format=search&page="+str(page_num)+"&query="+str(search_term)+"&selection=1&sort=popular&type=photo"
-    header = {'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
-
-    ## making a GET request to the website and getting the information in response.
-    result = requests.get(url, headers=header)
-
-    if result.status_code == 200:
-        soup = BeautifulSoup(result.content, "html.parser")
-    else:
-        print("Error")
-        exit()
-
-    ## Paths and file for saving the images and data.
-    dir_path = f"Downloads/{search_term}/"
-    file_path = f"Downloads/{search_term}/{search_term}.csv"
-
-    create_dir(dir_path)
-    create_file(file_path)
-
-    f = open(file_path, "a")
-
-    for tag in soup.find_all("a", class_="showcase__link"):
-        if tag.img:
+        if message.author.voice_channel is not None:
             try:
-                src = tag.img["data-src"]
-                alt = tag.img["alt"]
-            except Exception as e:
-                alt = None
+                voice = await client.join_voice_channel(message.author.voice_channel)
+                player = voice.create_ffmpeg_player('./res/rick_roll.mp3')
+                player.start()
+                while not counter >= duration:
+                    await asyncio.sleep(1)
+                    counter = counter + 1
+                await voice.disconnect()
+                player.stop()
+            except discord.errors.ClientException:
+                await client.edit_message(msg, "{} you let me down, I'm already connected!".format(
+                    message.author.mention))
+        else:
+            await client.edit_message(msg,
+                                      "Hey, {} you need to join a voice channel!".format(message.author.mention))
+    except AttributeError:
+        await client.edit_message(msg, "**You can't use me in your private DMs, you creep.**")
 
-            try:
-                if alt:
-                    image = io.imread(src)
-                    name = src.split("/")[-1].split("?")[0]
-                    data = f"{name},{alt}\n"
-                    f.write(data)
-                    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-                    cv2.imwrite(dir_path + name, image)
-                    print(name, ": ", alt)
-            except Exception as e:
-                pass
+
+async def help(client, message):
+    em = discord.Embed(title="Help: +rickroll",
+                       color=discord.Color.blue(),
+                       description="""
+Plays Rick Astleys 'Never Gonna Give You Up' in current voice channel.
++rickroll *[seconds]* (default is 10)
+**Example usage:** +rickroll 10
+""")
+    await client.send_message(message.channel, embed=em)
+    return
 
 
-if __name__ == "__main__":
-    terms = ['dog', 'cat', 'tree']
-    for term in terms:
-        save_image(term, page_num=1)
-        save_image(term, page_num=2)
-'''
+async def error(client, message):
+    em = discord.Embed(title="Missing required argument:",
+                       color=discord.Color.red(),
+                       description="""
+Plays Rick Astleys 'Never Gonna Give You Up' in current voice channel.
++rickroll *[seconds]* (default is 10)
+**Example usage:** +rickroll 10
+""")
+    await client.send_message(message.channel, embed=em)
+    return
