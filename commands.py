@@ -48,3 +48,7 @@ async def isRed(ctx):
     await ctx.send("You are Redguy")
   else:
     await ctx.send("You are not Redguy")
+
+@bot.command()
+async def rickRoll(ctx, person):
+  await ctx.send(person.mention+" https://www.youtube.com/watch?v=dQw4w9WgXcQ")
