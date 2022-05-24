@@ -34,8 +34,13 @@ async def money(ctx,amount):
 async def numbergenerator(ctx,amount):
   randomint = random.randomint(0, amount)
   await ctx.send('{randomint}')
-
-exec(open("commands.py","r").read())
-exec(open("commands2.py","r").read())
+try:
+  exec(open("commands.py","r").read())
+except:
+  print("commands.py failed to run properly.")
+try:
+  exec(open("commands2.py","r").read())
+except:
+  print("commands2.py failed to run properly.")
 
 bot.run(TOKEN)
