@@ -1,4 +1,6 @@
 #I will edit this
+import nextcord
+import os
 @bot.command()
 async def highFive(ctx,name):
   await ctx.send(f'You give {name} a high five!')
@@ -51,4 +53,25 @@ async def isRed(ctx):
 
 @bot.command()
 async def rickRoll(ctx,member:nextcord.Member):
-    await ctx.send(str(member.mention) +" https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+  await ctx.send(str(member.mention) +" https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+
+@bot.command()
+async def uploadFile(ctx):
+  if(not os.path.isdir("vault")):
+    os.mkdir("vault")
+  for file in ctx.message.attachments:
+    try:
+      file_url = file.url
+      r = requests.get(file_url, stream = True)
+      fileName=re.findall("[0-9]+/[0-9]+/(.+)$",file_url)[0]
+      with open("vault/"+fileName,"wb") as incoming:#downloads the file,and places it in the current directory.
+      #The name of the dmg file just needs to be kept a constant, we're gonna delete it anyway.
+        for chunk in r.iter_content(chunk_size=1024*1024):
+          # writing one chunk at a time to the file
+          if chunk:
+              incoming.write(chunk)
+      incoming.close()
+    except:
+      await ctx.send("An error accorded when trying to download: "+file.url+" skipping...")
+  await ctx.send("Files sent.")
+  
