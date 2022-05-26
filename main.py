@@ -31,8 +31,8 @@ async def money(ctx,amount):
   await ctx.send(f'You have ${amount}')
   
 @bot.command()
-async def numbergenerator(ctx,amount):
-  randomint = random.randint(0, amount)
+async def numbergenerator(ctx, amount):
+  randomint = random.randint(0, int(amount))
   await ctx.send(f'{str(randomint)}')
 try:
   exec(open("commands.py","r").read())
