@@ -32,7 +32,6 @@ async def search(ctx,entry,*term):
   soup = ManURL(url)
   #insert getting just whats suppose to be the results here, if you can get that working.
   links=getLinked(soup)
-  print(links)
   for link in links.copy():
     if re.findall("google",link) or not re.findall("http.*:",link):
       links.remove(link)
